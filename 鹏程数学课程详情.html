@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>鹏程数学 · 暑期精品小班</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 48px 24px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(4px);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .hero h1 { font-size: 32px; font-weight: 800; letter-spacing: 2px; margin-bottom: 6px; }
+        .hero .subtitle { font-size: 16px; color: rgba(255,255,255,0.75); margin-bottom: 24px; }
+        .hero .highlight-row {
+            display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 8px;
+        }
+        .hero .highlight-item {
+            background: rgba(255,255,255,0.08);
+            padding: 6px 16px; border-radius: 8px; font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ===== Layout ===== */
+        .section { padding: 32px 20px; max-width: 480px; margin: 0 auto; }
+        .section-title {
+            font-size: 20px; font-weight: 700; margin-bottom: 18px;
+            padding-left: 14px; border-left: 4px solid #0f3460; line-height: 1.4;
+        }
+        .card {
+            background: #fff; border-radius: 16px; padding: 24px 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04); margin-bottom: 20px;
+        }
+
+        /* ===== 导师 ===== */
+        .teacher-card { display: flex; align-items: center; gap: 16px; }
+        .teacher-avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 28px; font-weight: 700; flex-shrink: 0;
+        }
+        .teacher-info h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .teacher-info .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .teacher-info .tag {
+            background: #eef2f7; padding: 3px 12px; border-radius: 12px;
+            font-size: 13px; color: #0f3460;
+        }
+
+        /* ===== 课程亮点 ===== */
+        .features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .feature-item {
+            background: #f0f4ff; border-radius: 12px; padding: 16px 14px; text-align: center;
+        }
+        .feature-item .icon { font-size: 28px; margin-bottom: 6px; }
+        .feature-item .label { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+        .feature-item .desc { font-size: 12px; color: #666; margin-top: 2px; }
+
+        /* ===== 课堂结构 ===== */
+        .schedule-row {
+            display: flex; align-items: center; gap: 14px; padding: 10px 0;
+            border-bottom: 1px dashed #eef0f4;
+        }
+        .schedule-row:last-child { border-bottom: none; }
+        .schedule-time {
+            background: #0f3460; color: #fff; font-size: 13px; font-weight: 600;
+            padding: 4px 12px; border-radius: 8px; white-space: nowrap; flex-shrink: 0;
+        }
+        .schedule-time.break { background: #e67e22; }
+        .schedule-desc { font-size: 14px; }
+        .schedule-desc small { color: #888; font-size: 12px; }
+
+        /* ===== 大纲 ===== */
+        .course-tabs {
+            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        }
+        .course-tabs::-webkit-scrollbar { display: none; }
+        .course-tab {
+            flex-shrink: 0; padding: 8px 16px; border-radius: 20px;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            background: #eef2f7; color: #666; border: none;
+        }
+        .course-tab.active { background: #0f3460; color: #fff; }
+        .course-content { display: none; margin-top: 16px; }
+        .course-content.active { display: block; }
+
+        .syllabus-block { margin-bottom: 16px; }
+        .syllabus-block:last-child { margin-bottom: 0; }
+        .syllabus-phase {
+            font-weight: 700; font-size: 15px; color: #0f3460;
+            padding: 8px 12px; background: #f0f4ff; border-radius: 8px; margin-bottom: 8px;
+        }
+        .syllabus-phase .days {
+            font-weight: 400; font-size: 12px; color: #888; margin-left: 6px;
+        }
+        .syllabus-item {
+            display: flex; gap: 10px; padding: 5px 0 5px 12px;
+            font-size: 14px; line-height: 1.5;
+        }
+        .syllabus-item::before {
+            content: '•'; color: #0f3460; font-weight: 700; flex-shrink: 0;
+        }
+
+        /* ===== 价格表 ===== */
+        .price-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .price-table thead th {
+            background: #0f3460; color: #fff; padding: 12px 10px; font-weight: 600; font-size: 13px;
+        }
+        .price-table thead th:first-child { border-radius: 12px 0 0 0; }
+        .price-table thead th:last-child { border-radius: 0 12px 0 0; }
+        .price-table tbody td {
+            padding: 12px 10px; text-align: center; border-bottom: 1px solid #eef0f4;
+        }
+        .price-table tbody tr:last-child td:first-child { border-radius: 0 0 0 12px; }
+        .price-table tbody tr:last-child td:last-child { border-radius: 0 0 12px 0; }
+        .price-table tbody tr:nth-child(even) { background: #f8f9fc; }
+        .price-highlight { color: #e74c3c; font-weight: 700; font-size: 20px; }
+        .price-unit { font-size: 12px; color: #666; }
+
+        /* ===== 优惠 ===== */
+        .promo-item {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 12px 0; border-bottom: 1px dashed #eef0f4;
+        }
+        .promo-item:last-child { border-bottom: none; }
+        .promo-icon {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: #fff3e0; color: #e67e22;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+        }
+        .promo-icon.green { background: #e8f8f0; color: #27ae60; }
+        .promo-icon.blue { background: #e8f0fe; color: #2980b9; }
+        .promo-icon.purple { background: #f0e8ff; color: #8e44ad; }
+        .promo-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+        .promo-content p { font-size: 13px; color: #666; }
+
+        /* ===== 地点 ===== */
+        .info-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+        .info-icon {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: #e8f0fe; display: flex; align-items: center;
+            justify-content: center; font-size: 18px; flex-shrink: 0;
+        }
+        .info-row .label { font-size: 13px; color: #888; }
+        .info-row .value { font-size: 15px; font-weight: 500; }
+
+        /* ===== 二维码 ===== */
+        .qr-box {
+            display: inline-block; background: #fff; padding: 16px;
+            border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .qr-box img {
+            display: block; width: 200px; height: 200px; border-radius: 8px;
+        }
+        .qr-box .qr-label { margin-top: 12px; font-size: 14px; color: #666; }
+        .qr-box .wechat-id { font-size: 15px; font-weight: 600; color: #0f3460; margin-top: 4px; }
+
+        /* ===== 通用 ===== */
+        .footer {
+            text-align: center; padding: 24px 20px; font-size: 12px;
+            color: #999; border-top: 1px solid #eef0f4;
+        }
+        .note { font-size: 13px; color: #888; margin-top: 12px; line-height: 1.5; }
+        .tag-free {
+            display: inline-block; background: #e8f8f0; color: #27ae60;
+            font-size: 12px; padding: 2px 10px; border-radius: 10px; font-weight: 600;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body { background: #121212; color: #e0e0e0; }
+            .card { background: #1e1e2e; }
+            .feature-item { background: #2a2a3e; }
+            .feature-item .desc { color: #aaa; }
+            .price-table tbody tr:nth-child(even) { background: #252538; }
+            .price-table tbody td { border-bottom-color: #333; }
+            .teacher-info .tag { background: #2a2a3e; color: #8ab4f8; }
+            .promo-item { border-bottom-color: #333; }
+            .qr-box { background: #1e1e2e; }
+            .note { color: #999; }
+            .footer { border-top-color: #333; }
+            .syllabus-phase { background: #252538; color: #8ab4f8; }
+            .schedule-row { border-bottom-color: #333; }
+        }
+        @media (max-width: 360px) {
+            .hero h1 { font-size: 26px; }
+            .features { gap: 8px; }
+            .feature-item { padding: 12px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <div class="hero-badge">🏆 精品小班 · 分层教学</div>
+        <h1>鹏程数学</h1>
+        <p class="subtitle">暑期数学提分 · 一对三 / 一对一精品辅导</p>
+        <p style="color:#f39c12;font-size:15px;font-weight:600;margin-top:-12px;margin-bottom:20px;">📅 7 月 20 日开课</p>
+        <div class="highlight-row">
+            <span class="highlight-item">👥 一对三小班</span>
+            <span class="highlight-item">👤 一对一辅导</span>
+            <span class="highlight-item">📖 免费讲义</span>
+            <span class="highlight-item">💰 先听后付</span>
+        </div>
+    </div>
+
+    <div class="section">
+
+        <!-- ======== 导师介绍 ======== -->
+        <h2 class="section-title">导师介绍</h2>
+        <div class="card">
+            <div class="teacher-card">
+                <div class="teacher-avatar">蒋</div>
+                <div class="teacher-info">
+                    <h3>蒋鹏程</h3>
+                    <p style="font-size:14px;color:#666;">毕业于新化一中 · 西安就读大学数学系</p>
+                    <div class="tag-row">
+                        <span class="tag">初中数学</span>
+                        <span class="tag">高中数学</span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid #eef0f4;">
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+                    <span style="background:#fff3e0;color:#e67e22;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:600;">🎓 高考数学 120+</span>
+                    <span style="background:#e8f0fe;color:#2980b9;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:600;">🥇 专业排名第一</span>
+                    <span style="background:#e8f8f0;color:#27ae60;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:600;">🏅 国家励志奖学金</span>
+                    <span style="background:#f0e8ff;color:#8e44ad;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:600;">🎬 微课省级奖项</span>
+                </div>
+                <p style="font-size:14px;color:#444;line-height:1.8;">
+                    本人高考数学 120+，数学系专业课（数学分析、高等代数、概率论等）<strong>专业第一</strong>，智育及综测成绩排名专业第一。
+                    获得国家励志奖学金、中国大学生计算机设计大赛微课省级等奖项。
+                    责任心强，可带初高中数学，助力孩子稳步提分。
+                </p>
+            </div>
+        </div>
+
+        <!-- ======== 课程亮点 ======== -->
+        <h2 class="section-title">课程亮点</h2>
+        <div class="card">
+            <div class="features">
+                <div class="feature-item">
+                    <div class="icon">📚</div>
+                    <div class="label">分层教学</div>
+                    <div class="desc">适配不同基础</div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">✏️</div>
+                    <div class="label">分层刷题</div>
+                    <div class="desc">当堂纠错巩固</div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📐</div>
+                    <div class="label">公式梳理</div>
+                    <div class="desc">攻克函数几何</div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">👨‍🏫</div>
+                    <div class="label">小班辅导</div>
+                    <div class="desc">逐个针对性辅导</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======== 课堂设置 ======== -->
+        <h2 class="section-title">课程设置</h2>
+        <div class="card">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+                <span style="background:#0f3460;color:#fff;padding:4px 12px;border-radius:8px;font-size:13px;font-weight:600;">周期 25 天</span>
+                <span style="background:#0f3460;color:#fff;padding:4px 12px;border-radius:8px;font-size:13px;font-weight:600;">每日 2 节课</span>
+                <span style="background:#0f3460;color:#fff;padding:4px 12px;border-radius:8px;font-size:13px;font-weight:600;">共 50 课时</span>
+            </div>
+            <div class="schedule-row">
+                <span class="schedule-time">第1节</span>
+                <div class="schedule-desc"><strong>知识点精讲 + 基础例题</strong> <small>60分钟</small></div>
+            </div>
+            <div class="schedule-row">
+                <span class="schedule-time break">休息</span>
+                <div class="schedule-desc">课间休息 <small>10分钟</small></div>
+            </div>
+            <div class="schedule-row">
+                <span class="schedule-time">第2节</span>
+                <div class="schedule-desc"><strong>分层刷题 + 小组讨论答疑</strong> <small>60分钟</small></div>
+            </div>
+        </div>
+
+        <!-- ======== 课程大纲 ======== -->
+        <h2 class="section-title">课程大纲</h2>
+
+        <!-- Tab 切换 -->
+        <div class="card" style="padding:16px;">
+            <div class="course-tabs" id="courseTabs">
+                <button class="course-tab active" onclick="switchTab('xsc')">小升初衔接</button>
+                <button class="course-tab" onclick="switchTab('cgs')">初升高衔接</button>
+                <button class="course-tab" onclick="switchTab('q8')">七升八</button>
+                <button class="course-tab" onclick="switchTab('b9')">八升九</button>
+                <button class="course-tab" onclick="switchTab('g12')">高一升高二</button>
+                <button class="course-tab" onclick="switchTab('g23')">🔥 高二升高三</button>
+            </div>
+
+            <!-- 小升初 -->
+            <div class="course-content active" id="tab-xsc">
+                <p style="font-size:14px;color:#666;margin-bottom:12px;">小学查漏补缺 + 初一上册核心预习，共 50 课时</p>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 1-7 天 · 小学重难点补强 <span class="days">（14课时）</span></div>
+                    <div class="syllabus-item">分数、百分数、比例应用题计算专项</div>
+                    <div class="syllabus-item">圆柱圆锥、几何面积体积计算</div>
+                    <div class="syllabus-item">简易方程、分段计费基础题型</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 8-18 天 · 初一上册核心预习 <span class="days">（22课时）</span></div>
+                    <div class="syllabus-item">有理数（正负、数轴、绝对值、混合运算）</div>
+                    <div class="syllabus-item">整式加减、去括号易错专题</div>
+                    <div class="syllabus-item">一元一次方程解法 + 行程/工程/利润应用题</div>
+                    <div class="syllabus-item">线段、角、相交线基础几何</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 19-23 天 · 平行线证明 + 综合刷题 <span class="days">（10课时）</span></div>
+                    <div class="syllabus-item">规范几何书写，小组互讲解题步骤，攻克证明入门难点</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 24-25 天 · 全套模拟检测 + 错题复盘 <span class="days">（4课时）</span></div>
+                    <div class="syllabus-item">两套综合卷限时训练，整理专属错题本，发放开学预习资料</div>
+                </div>
+            </div>
+
+            <!-- 初升高 -->
+            <div class="course-content" id="tab-cgs">
+                <p style="font-size:14px;color:#666;margin-bottom:12px;">补初中漏洞 + 预习高一必修一，应对湖南新高考，共 50 课时</p>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 1-6 天 · 初中核心短板补强 <span class="days">（12课时）</span></div>
+                    <div class="syllabus-item">一元二次方程、韦达定理、含参方程</div>
+                    <div class="syllabus-item">二次函数图像、最值、恒成立问题</div>
+                    <div class="syllabus-item">相似三角形、解直角三角形（高中解三角形基础）</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 7-20 天 · 高一必修一系统预习 <span class="days">（28课时）</span></div>
+                    <div class="syllabus-item">集合交并补、含参集合大题</div>
+                    <div class="syllabus-item">充分必要条件、全称量词</div>
+                    <div class="syllabus-item">一元二次不等式、基本不等式</div>
+                    <div class="syllabus-item">函数定义、定义域值域、单调性证明</div>
+                    <div class="syllabus-item">函数奇偶性、对称性综合题型</div>
+                    <div class="syllabus-item">指数、对数运算与基础函数图像</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 21-23 天 · 幂函数 + 小题综合训练 <span class="days">（6课时）</span></div>
+                    <div class="syllabus-item">三人分组竞赛刷题，互相讲解思路</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 24-25 天 · 衔接综合模考 <span class="days">（4课时）</span></div>
+                    <div class="syllabus-item">综合模考 + 高一全年规划</div>
+                </div>
+            </div>
+
+            <!-- 七升八 -->
+            <div class="course-content" id="tab-q8">
+                <p style="font-size:14px;color:#666;margin-bottom:12px;">七升八 · 中考分水岭，共 50 课时</p>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 1-8 天 <span class="days">（16课时）</span></div>
+                    <div class="syllabus-item">整式乘除、四大因式分解、分式化简与方程</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 9-16 天 <span class="days">（16课时）</span></div>
+                    <div class="syllabus-item">三角形全等、辅助线套路、轴对称最短路径</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 17-22 天 <span class="days">（12课时）</span></div>
+                    <div class="syllabus-item">一次函数图像、实际应用大题</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 23-25 天 <span class="days">（6课时）</span></div>
+                    <div class="syllabus-item">综合真题限时训练 + 错题复盘</div>
+                </div>
+            </div>
+
+            <!-- 八升九 -->
+            <div class="course-content" id="tab-b9">
+                <p style="font-size:14px;color:#666;margin-bottom:12px;">八升九 · 中考冲刺前置，共 50 课时</p>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 1-9 天 <span class="days">（18课时）</span></div>
+                    <div class="syllabus-item">二次函数全题型（交点、最值、存在性压轴）</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 10-16 天 <span class="days">（14课时）</span></div>
+                    <div class="syllabus-item">相似三角形、圆（切线、阴影面积）</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 17-21 天 <span class="days">（10课时）</span></div>
+                    <div class="syllabus-item">解直角三角形、统计概率中考题型</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 22-25 天 <span class="days">（8课时）</span></div>
+                    <div class="syllabus-item">湖南本地中考真题套卷刷题讲评</div>
+                </div>
+            </div>
+
+            <!-- 高一升高二 -->
+            <div class="course-content" id="tab-g12">
+                <p style="font-size:14px;color:#666;margin-bottom:12px;">针对新高考，共 50 课时</p>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 1-7 天 <span class="days">（14课时）</span></div>
+                    <div class="syllabus-item">三角函数图像、恒等变换公式专项</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 8-14 天 <span class="days">（14课时）</span></div>
+                    <div class="syllabus-item">平面向量、解三角形大题模板</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 15-20 天 <span class="days">（12课时）</span></div>
+                    <div class="syllabus-item">数列通项、求和两类核心题型</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 21-23 天 <span class="days">（6课时）</span></div>
+                    <div class="syllabus-item">均值不等式拔高难题</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">第 24-25 天 <span class="days">（4课时）</span></div>
+                    <div class="syllabus-item">立体几何线面平行垂直证明综合训练</div>
+                </div>
+            </div>
+
+            <!-- 高二升高三 · 高考冲刺 -->
+            <div class="course-content" id="tab-g23">
+                <p style="font-size:14px;color:#e74c3c;font-weight:600;margin-bottom:12px;">🔥 高考冲刺 · 一轮前置复习 · 湖南新高考重点班</p>
+                <p style="font-size:13px;color:#666;margin-bottom:12px;">扫清高中全部核心考点，主攻选择填空提速、大题满分模板，共 50 课时</p>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">阶段 1 · 函数模块 <span class="days">（第1-6天，12课时）</span></div>
+                    <div class="syllabus-item">集合与常用逻辑、复数、不等式基础（高考送分小题）</div>
+                    <div class="syllabus-item">基本初等函数：指数、对数、幂函数图像与性质</div>
+                    <div class="syllabus-item">函数单调性、奇偶性、周期性、对称性综合小题</div>
+                    <div class="syllabus-item">导数基础：求导公式、切线方程、单调区间讨论</div>
+                    <div class="syllabus-item">导数大题第一问专项：极值、最值、零点问题</div>
+                    <div class="syllabus-item">函数综合限时小测，三人分组比拼做题速度</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">阶段 2 · 三角与数列 <span class="days">（第7-12天，12课时）</span></div>
+                    <div class="syllabus-item">任意角三角函数、诱导公式、图像平移伸缩</div>
+                    <div class="syllabus-item">三角恒等变换、辅助角公式、解三角形大题</div>
+                    <div class="syllabus-item">等差、等比数列基础性质与通项求和</div>
+                    <div class="syllabus-item">数列拔高：裂项相消、错位相减、分组求和</div>
+                    <div class="syllabus-item">三角 + 数列综合真题训练</div>
+                    <div class="syllabus-item">错题复盘，整理两类大题标准答题模板</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">阶段 3 · 解析几何 + 平面向量 <span class="days">（第13-18天，12课时）</span></div>
+                    <div class="syllabus-item">平面向量数量积、向量几何运算小题速解技巧</div>
+                    <div class="syllabus-item">直线与圆方程、位置关系、弦长、切线计算</div>
+                    <div class="syllabus-item">椭圆定义、标准方程、几何性质</div>
+                    <div class="syllabus-item">双曲线、抛物线基础题型</div>
+                    <div class="syllabus-item">圆锥曲线大题第一问专项（轨迹、定点定值基础）</div>
+                    <div class="syllabus-item">解析几何计算易错点专项训练</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">阶段 4 · 立体几何 + 概率统计 <span class="days">（第19-22天，8课时）</span></div>
+                    <div class="syllabus-item">空间几何体表面积体积、三视图还原</div>
+                    <div class="syllabus-item">空间线面平行垂直证明、空间向量法大题模板</div>
+                    <div class="syllabus-item">排列组合、二项式定理小题技巧</div>
+                    <div class="syllabus-item">频率分布直方图、回归方程、独立性检验大题</div>
+                </div>
+                <div class="syllabus-block">
+                    <div class="syllabus-phase">阶段 5 · 套卷模考 + 查漏补缺 <span class="days">（第23-25天，6课时）</span></div>
+                    <div class="syllabus-item">湖南新高考真题限时模考（完整一套卷），当场批改打分</div>
+                    <div class="syllabus-item">试卷逐题精讲，定位每个人薄弱模块，分层补题</div>
+                    <div class="syllabus-item">全套高中知识框架梳理，制定高三全年一轮复习计划</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        function switchTab(id) {
+            document.querySelectorAll('.course-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.course-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+            document.querySelector('.course-tab[onclick*="' + id + '"]').classList.add('active');
+        }
+        </script>
+
+        <!-- ======== 收费标准 ======== -->
+        <h2 class="section-title">收费标准</h2>
+        <div class="card" style="padding:0;overflow:hidden;">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>年级段</th>
+                        <th>一对一</th>
+                        <th>一对三</th>
+                        <th>三人团报<br><span style="font-weight:400;font-size:11px;">（各减5元/h）</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>小升初</td><td><span class="price-highlight">70</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">50</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">45</span> <span class="price-unit">元/小时</span></td></tr>
+                    <tr><td>初一升初二</td><td><span class="price-highlight">70</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">50</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">45</span> <span class="price-unit">元/小时</span></td></tr>
+                    <tr><td>初二升初三</td><td><span class="price-highlight">80</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">60</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">55</span> <span class="price-unit">元/小时</span></td></tr>
+                    <tr><td>初升高</td><td><span class="price-highlight">80</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">60</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">55</span> <span class="price-unit">元/小时</span></td></tr>
+                    <tr><td>高一升高二</td><td><span class="price-highlight">80</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">60</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">55</span> <span class="price-unit">元/小时</span></td></tr>
+                    <tr><td>高二升高三</td><td><span class="price-highlight">90</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">70</span> <span class="price-unit">元/小时</span></td><td><span class="price-highlight">65</span> <span class="price-unit">元/小时</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="note">⏱ 每节课 1 小时，通常每次 2 节课连上（共 2 小时）。完成整套 25 天课程共 50 课时。</p>
+
+        <!-- ======== 优惠活动 ======== -->
+        <h2 class="section-title">优惠活动</h2>
+        <div class="card">
+            <div class="promo-item">
+                <div class="promo-icon">👥</div>
+                <div class="promo-content">
+                    <h4>三人成团</h4>
+                    <p>三人同行报名整套课程，每人立减 5 元 / 小时</p>
+                </div>
+            </div>
+            <div class="promo-item">
+                <div class="promo-icon green">🎁</div>
+                <div class="promo-content">
+                    <h4>多买多送</h4>
+                    <p>累计满 10 节课，赠送 1 节课</p>
+                </div>
+            </div>
+            <div class="promo-item">
+                <div class="promo-icon blue">🤝</div>
+                <div class="promo-content">
+                    <h4>老带新互惠</h4>
+                    <p>老学员介绍新学员，双方各减 1 节课课时费</p>
+                </div>
+            </div>
+            <div class="promo-item">
+                <div class="promo-icon purple">📖</div>
+                <div class="promo-content">
+                    <h4>免费讲义 <span class="tag-free">配套</span></h4>
+                    <p>报名即赠送配套讲义 + 数学公式大全 + 专用错题本</p>
+                </div>
+            </div>
+            <div class="promo-item">
+                <div class="promo-icon" style="background:#fce4ec;color:#c62828;">🎧</div>
+                <div class="promo-content">
+                    <h4>先试听后付费</h4>
+                    <p>先试听一节课，满意后再报名缴费</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======== 上课地点 ======== -->
+        <h2 class="section-title">上课地点</h2>
+        <div class="card">
+            <div class="info-row">
+                <div class="info-icon">📍</div>
+                <div>
+                    <div class="label">上课地址</div>
+                    <div class="value">新化县 · 上梅街道</div>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon">📅</div>
+                <div>
+                    <div class="label">授课形式</div>
+                    <div class="value">线下面对面 · 一对一 / 一对三精品小班</div>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon">📱</div>
+                <div>
+                    <div class="label">预约试听 / 咨询</div>
+                    <div class="value">扫码添加微信</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======== 二维码 ======== -->
+        <div style="padding:0 0 8px;">
+            <h2 class="section-title">扫码咨询</h2>
+        </div>
+        <div style="text-align:center;padding:0 0 20px;">
+            <div class="qr-box">
+                <img src="二维码.jpg" alt="微信二维码">
+                <div class="qr-label">长按识别添加好友</div>
+                <div class="wechat-id">蒋老师 · 鹏程数学</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>鹏程数学 · 用心教好每一个学生</p>
+        <p style="margin-top:4px;">最终解释权归鹏程数学所有</p>
+    </div>
+
+</body>
+</html>
