@@ -39,15 +39,12 @@
             margin-bottom: 22px;
             box-shadow: 0 4px 12px rgba(243,156,18,0.3);
         }
-        .hero-slogan { margin-bottom: 8px; }
-        .slogan-line { font-size: 34px; font-weight: 800; letter-spacing: 1px; }
-        .slogan-highlight {
-            font-size: 36px; font-weight: 900;
-            background: linear-gradient(135deg, #f39c12, #e74c3c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
+        .hero-main-line {
+            font-size: 22px; font-weight: 800; line-height: 1.5; margin-bottom: 6px;
+        }
+        .hero-sub-line {
+            font-size: 15px; color: rgba(255,255,255,0.7); font-weight: 500;
+            margin-bottom: 6px;
         }
         .hero-brand { margin: 10px 0 18px; }
         .brand-name { font-size: 20px; font-weight: 700; letter-spacing: 3px; }
@@ -97,6 +94,52 @@
         .trust-num { font-size: 16px; font-weight: 800; color: #0f3460; }
         .trust-label { font-size: 11px; color: #888; }
         .trust-divider { width: 1px; height: 30px; background: #eef0f4; }
+
+        /* ===== 家长困惑 ===== */
+        .pain-section { padding: 0 20px; max-width: 480px; margin: 0 auto; }
+        .pain-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 12px 0; border-bottom: 1px dashed #eef0f4;
+        }
+        .pain-num {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: #fce4ec; color: #c62828;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+        }
+        .pain-text { font-size: 14px; color: #444; line-height: 1.6; }
+
+        /* ===== 解决方案 ===== */
+        .solution-section { padding: 0 20px 8px; max-width: 480px; margin: 0 auto; }
+        .solution-card {
+            background: linear-gradient(135deg, #e8f8f0, #f0faf4);
+            border: 2px solid #27ae60;
+            border-radius: 16px; padding: 24px 20px; text-align: center;
+            box-shadow: 0 4px 16px rgba(39,174,96,0.12);
+        }
+        .solution-label {
+            display: inline-block;
+            background: #27ae60; color: #fff;
+            padding: 4px 16px; border-radius: 12px;
+            font-size: 13px; font-weight: 600; margin-bottom: 12px;
+        }
+        .solution-title {
+            font-size: 22px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px;
+        }
+        .solution-desc {
+            font-size: 14px; color: #444; margin-bottom: 12px;
+        }
+        .sol-highlight { color: #27ae60; font-weight: 600; }
+        .solution-features {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 12px;
+        }
+        .sol-tag {
+            background: #fff; border: 1px solid #27ae60; color: #27ae60;
+            padding: 4px 14px; border-radius: 16px; font-size: 12px; font-weight: 600;
+        }
+        .solution-range {
+            font-size: 13px; color: #666; padding-top: 10px; border-top: 1px dashed #b8e6c8;
+        }
 
         /* ===== Layout ===== */
         .section { padding: 32px 20px; max-width: 480px; margin: 0 auto; }
@@ -310,9 +353,16 @@
             .trust-num { color: #8ab4f8; }
             .trust-label { color: #999; }
             .trust-divider { background: #333; }
+            .pain-item { border-bottom-color: #333; }
+            .pain-text { color: #ccc; }
+            .pain-num { background: #3a1a2e; color: #e57373; }
+            .solution-card { background: linear-gradient(135deg, #1a2e1e, #1e2e2e); }
+            .solution-title { color: #e0e0e0; }
+            .solution-desc { color: #bbb; }
+            .solution-range { color: #999; border-top-color: #333; }
         }
         @media (max-width: 360px) {
-            .hero h1 { font-size: 26px; }
+            .hero-main-line { font-size: 18px; }
             .features { gap: 8px; }
             .feature-item { padding: 12px 8px; }
         }
@@ -324,10 +374,12 @@
     <div class="hero">
         <div class="hero-badge">🔥 新化家长口碑推荐</div>
 
-        <!-- 主标语 -->
-        <div class="hero-slogan">
-            <span class="slogan-line">数学拖分，</span>
-            <span class="slogan-highlight">不用愁！</span>
+        <div class="hero-main-line">
+            🔥全学段数学暑期集训<br>
+            <span style="color:#f39c12;">3人精品小班</span> · 结伴学数学
+        </div>
+        <div class="hero-sub-line">
+            拒绝无效复盘 · 升学优先预习重难点
         </div>
 
         <!-- 品牌 -->
@@ -387,6 +439,52 @@
         <div class="trust-item">
             <span class="trust-num">25天</span>
             <span class="trust-label">系统集训</span>
+        </div>
+    </div>
+
+    <!-- ====== 家长困惑 ====== -->
+    <div class="pain-section">
+        <h2 class="section-title">❓ 绝大多数初高中家长的共性困惑</h2>
+        <div class="card">
+            <div class="pain-item">
+                <span class="pain-num">1</span>
+                <div class="pain-text">孩子数学瓶颈难突破，上课听懂做题废，升学分水岭科目越落越多？</div>
+            </div>
+            <div class="pain-item">
+                <span class="pain-num">2</span>
+                <div class="pain-text">报大型机构大班课，孩子沦为课堂透明人，老师无暇针对性管教？</div>
+            </div>
+            <div class="pain-item">
+                <span class="pain-num">3</span>
+                <div class="pain-text">想要精细化辅导，一对一学费过高，长期补习经济压力太大？</div>
+            </div>
+            <div class="pain-item">
+                <span class="pain-num">4</span>
+                <div class="pain-text">孩子独自学习没动力、容易厌学，想要学习搭子，学习找伴不愁？</div>
+            </div>
+            <div class="pain-item" style="border-bottom:none;">
+                <span class="pain-num">5</span>
+                <div class="pain-text">不想浪费宝贵暑期，反复刷旧知识，只想提前预习新学期升学重难点，开学直接领跑？</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 解决方案 ====== -->
+    <div class="solution-section">
+        <div class="solution-card">
+            <div class="solution-label">✅ 最优解决方案</div>
+            <div class="solution-title">全学段一对三精品数学小班</div>
+            <div class="solution-desc">
+                平衡<span class="sol-highlight">大班氛围</span> + <span class="sol-highlight">一对一精细化教学</span>，<strong>性价比首选</strong>
+            </div>
+            <div class="solution-features">
+                <span class="sol-tag">有同伴互相督学讨论</span>
+                <span class="sol-tag">全程新课优先</span>
+                <span class="sol-tag">拒绝无意义旧知识复盘</span>
+            </div>
+            <div class="solution-range">
+                适配 <strong>小升初 / 初中中考 / 初升高 / 高中全阶段</strong> 升学备考
+            </div>
         </div>
     </div>
 
